@@ -5,7 +5,6 @@ import numpy as np
 def create_lagged_features(data, n_lags=5):
     """
     Prepares the dataset with lagged features necessary for Random Forest regression.
-
     Parameters:
     - data: Pandas Series of historical closing prices.
     - n_lags: The number of lagged observations to create as features.
@@ -21,14 +20,13 @@ def create_lagged_features(data, n_lags=5):
     y = df[data.name]
     return X, y
 
-def random_forest_forecast(data, n_lags=5, steps=180):
+def random_forest_forecast(data, forecast_horizon, n_lags=5):
     """
-    Forecast future values using a Random Forest Regressor.
-
+    Forecast future values using a Random Forest Regressor, with a dynamic forecast horizon.
     Parameters:
     - data: Pandas Series of historical closing prices.
+    - forecast_horizon: Integer specifying the number of days to forecast.
     - n_lags: Number of past observations to use for forecasting.
-    - steps: Number of future steps to forecast.
     
     Returns:
     - Pandas Series containing the forecasted values with a datetime index.
@@ -41,7 +39,7 @@ def random_forest_forecast(data, n_lags=5, steps=180):
     last_obs = data.tail(n_lags).values[::-1]  # Reverse to get the correct order (most recent first)
     forecasts = []
 
-    for _ in range(steps):
+    for _ in range(forecast_horizon):
         # Reshape last_obs to match model input shape
         model_input = np.array(last_obs).reshape(1, -1)
         forecast = model.predict(model_input)[0]
@@ -51,7 +49,8 @@ def random_forest_forecast(data, n_lags=5, steps=180):
         last_obs = np.roll(last_obs, -1)
         last_obs[-1] = forecast
 
-    future_dates = pd.date_range(start=data.index[-1] + pd.Timedelta(days=1), periods=steps)
+    future_dates = pd.date_range(start=data.index[-1] + pd.Timedelta(days=1), periods=forecast_horizon)
     forecast_series = pd.Series(forecasts, index=future_dates)
     
     return forecast_series
+    

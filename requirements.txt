@@ -8,3 +8,5 @@ statsmodels
 tbats
 pmdarima
 st-paywall
+tensorflow
+pandas

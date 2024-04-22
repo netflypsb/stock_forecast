@@ -10,6 +10,7 @@ from algo.sarima import sarima_forecast
 from algo.linear_regression import linear_regression_forecast
 from algo.tbats import tbats_forecast
 from algo.random_forest import random_forest_forecast
+from algo.lstm import lstm_forecast
 
 # Set up Streamlit configuration
 st.set_page_config(page_title="netflypsb", page_icon="logo.png", menu_items=None)
@@ -70,7 +71,7 @@ forecast_date = st.sidebar.date_input('Forecast Date', min_value=end_date, value
 
 # User selects which forecasting models to use in Sidebar
 options = st.sidebar.multiselect('Select forecasting models to use',
-                                 ['SARIMA', 'Linear Regression', 'TBATS', 'Random Forest'],
+                                 ['SARIMA', 'Linear Regression', 'TBATS', 'Random Forest', 'LSTM'],
                                  ['SARIMA', 'Linear Regression'])
 
 if st.sidebar.button('Analyze'):
@@ -85,6 +86,8 @@ if st.sidebar.button('Analyze'):
         forecasts['TBATS'] = tbats_forecast(data, forecast_horizon)
     if 'Random Forest' in options:
         forecasts['Random Forest'] = random_forest_forecast(data, forecast_horizon)
+    if 'LSTM' in options:
+        forecasts['LSTM'] = lstm_forecast(data, forecast_horizon)
     
     plot_forecasts(data, forecasts, f"Forecasted Stock Prices for {ticker}")
     

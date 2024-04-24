@@ -10,3 +10,4 @@ pmdarima
 st-paywall
 tensorflow
 pandas
+requests

@@ -4,7 +4,7 @@ import streamlit as st
 def fetch_subscribers(access_token=None):
     """
     Fetch all active subscribers with their plan details.
-    This function checks the API response carefully and handles any missing or unexpected data.
+    Handles API response and extracts necessary subscriber information.
     """
     if access_token is None:
         access_token = st.secrets["bmac_api_key"]
@@ -13,33 +13,25 @@ def fetch_subscribers(access_token=None):
     headers = {"Authorization": f"Bearer {access_token}"}
     response = requests.get(url, headers=headers)
 
-    # Check if the response was successful
     if response.status_code == 200:
         json_response = response.json()
-        
-        # Check if 'data' key is present in the response
         if 'data' in json_response:
             return json_response['data']
         else:
-            # Log error or handle cases where 'data' is not present
             st.error("Received unexpected data structure from BMAC API.")
             return []
     else:
-        # Handle response errors
         st.error(f"Failed to fetch subscribers: {response.status_code} - {response.text}")
         return []
 
-def is_subscriber_authorized(email, plan_name, subscribers):
+def is_subscriber_authorized(email, subscribers):
     """
-    Check if the provided email subscribes to the specified plan.
-    Includes checks to safely access 'email' and 'plan' keys.
+    Check if the provided email is present among the subscribers.
+    Since plan data is not available, authorization is based on email presence alone.
     """
     for subscriber in subscribers:
-        # Ensure both 'email' and 'plan' keys exist in each subscriber dictionary
-        if 'email' in subscriber and 'plan' in subscriber:
-            if subscriber['email'] == email and subscriber['plan'] == plan_name:
-                return True
-        else:
-            # Optionally log or handle entries with missing data
-            st.warning(f"Missing required data for a subscriber entry: {subscriber}")
+        # Check if 'payer_email' is present and matches the given email
+        if 'payer_email' in subscriber and subscriber['payer_email'] == email:
+            # Additional checks can be added here based on other criteria like subscription status
+            return True
     return False

@@ -23,3 +23,12 @@ def fetch_subscribers(access_token=None):
         # Handle response errors
         st.error(f"Failed to fetch subscribers: {response.status_code} - {response.text}")
         return []
+
+def is_subscriber_authorized(email, plan_name, subscribers):
+    """Check if the provided email subscribes to the specified plan."""
+    for subscriber in subscribers:
+        if subscriber['email'] == email and subscriber['plan'] == plan_name:
+            return True
+    return False
+
+

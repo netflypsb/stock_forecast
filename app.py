@@ -1,5 +1,4 @@
 import streamlit as st
-from st_paywall import add_auth
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,9 +13,6 @@ from algo.lstm import lstm_forecast
 
 # Set up Streamlit configuration
 st.set_page_config(page_title="netflypsb", page_icon="logo.png", menu_items=None)
-
-# Implement authentication and paywall
-add_auth(required=True)
 
 st.write("# Stocks Forecast")
 st.markdown("""

@@ -43,7 +43,7 @@ def main():
     st.sidebar.title("Subscriber Login")
     email = st.sidebar.text_input("Enter your email:")
     if st.sidebar.button("Login"):
-        if is_subscriber_authorized(email, "Premium Plan", subscribers):
+        if is_subscriber_authorized(email, subscribers):
             st.session_state['authenticated'] = True
         else:
             st.sidebar.error("Access denied. Please ensure you are subscribed to the correct plan.")

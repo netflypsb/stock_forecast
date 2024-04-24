@@ -81,7 +81,7 @@ if st.sidebar.button('Analyze'):
     if 'SARIMA' in options:
         forecasts['SARIMA'] = sarima_forecast(data, forecast_horizon)
     if 'Linear Regression' in options:
-        forecasts['Linear Regression'] = linear_regression_forecast(data, forecast_horecast(data, forecast_horizon))
+        forecasts['Linear Regression'] = linear_regression_forecast(data, forecast_horizon(data, forecast_horizon))
     if 'TBATS' in options:
         forecasts['TBATS'] = tbats_forecast(data, forecast_horizon)
     if 'Random Forest' in options:

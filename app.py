@@ -3,8 +3,14 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import yfinance as yf
-from algo import sarima_forecast, linear_regression_forecast, tbats_forecast, random_forest_forecast, lstm_forecast
 from authentication import is_subscriber_authorized, fetch_subscribers
+
+# Importing forecasting algorithms from the algo directory
+from algo.sarima import sarima_forecast
+from algo.linear_regression import linear_regression_forecast
+from algo.tbats import tbats_forecast
+from algo.random_forest import random_forest_forecast
+from algo.lstm import lstm_forecast
 
 # Set up Streamlit configuration
 st.set_page_config(page_title="netflypsb", page_icon="logo.png", menu_items=None)

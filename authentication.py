@@ -30,6 +30,6 @@ def is_subscriber_authorized(email, subscribers):
     """
     for subscriber in subscribers:
         if ('payer_email' in subscriber and 'membership_level_id' in subscriber and
-            subscriber['payer_email'] == email and subscriber['membership_level_id'] == 187452):
+            subscriber['payer_email'] == email and subscriber['membership_level_id'] == 187451):
             return True
     return False
